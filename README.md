@@ -1,7 +1,10 @@
 # Burger Builder
 
-An App created with react to build dynamically burgers.
+## Introduction
+A react app to build burgers dynamically.  
 
 
+## Notes
+This project is based on this [online-course](https://www.udemy.com/react-the-complete-guide-incl-redux/).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).  
