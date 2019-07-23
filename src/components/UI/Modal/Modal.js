@@ -8,7 +8,7 @@ class Modal extends Component {
 
   // Set condition to only re-render Modal when show is changed
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return nextProps.show !== this.props.show;
+    return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
   }
 
   componentWillUpdate(nextProps, nextState, nextContext) {
@@ -18,7 +18,7 @@ class Modal extends Component {
   render() {
     return (
       <Aux>
-        <Backdrop show={this.props.show} clicked={this.props.cancelOrder}/>
+        <Backdrop show={this.props.show} clicked={this.props.closeModal}/>
         <div
           className={classes.Modal}
           style={{
