@@ -13,7 +13,6 @@ class OrderSummary extends Component {
   // As soon as ingredients are added, Modal updates OrderSummary even though it's not shown.
   // Only updating OrderSummary when Modal will be shown, improves performance.
   componentWillUpdate(nextProps, nextState, nextContext) {
-    console.log("[OrderSummary] WillUpdate");
   }
 
   render() {
