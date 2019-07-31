@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import Axios from '../../../Axios-orders';
+import axios from '../../../Axios-orders';
 import {connect} from "react-redux";
 
+import errorWrapper from '../../../hoc/Aux/errorWrapper';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import classes from './ContactData.module.css';
+import {purchaseInProgress} from '../../../store/actions/index';
 
 class ContactData extends Component {
   state = {
@@ -86,7 +88,6 @@ class ContactData extends Component {
         valid: true
       },
     },
-    loading: false,
     formIsValid: false
   };
 
@@ -104,18 +105,7 @@ class ContactData extends Component {
       price: this.props.price,
       orderDetails: orderDetails
     };
-    Axios
-      .post("/orders.json", order)
-      .then(res => {
-        console.log(res);
-        this.setState({ loading: false });
-        // history is only available because special props are passed to ContactData
-        this.props.history.push("/");
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ loading: false });
-      });
+    this.props.onPurchase(order);
   };
 
   changeHandler = (event, inputIdentifier) => {
@@ -182,7 +172,7 @@ class ContactData extends Component {
         >Order</Button>
       </form>
     );
-    if(this.state.loading) {
+    if(this.props.loading) {
       form = <Spinner/>;
     }
     return (
@@ -196,9 +186,16 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
   return {
-    ingredients: state.ingredients,
-    price: state.totalPrice
+    ingredients: state.burgerBuilding.ingredients,
+    price: state.burgerBuilding.totalPrice,
+    loading: state.order.loading
   }
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+  return {
+    onPurchase: (orderData) => dispatch(purchaseInProgress(orderData))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(errorWrapper(ContactData, axios));
