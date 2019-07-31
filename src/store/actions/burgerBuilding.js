@@ -22,9 +22,10 @@ export const setIngredients = (ingredients) => {
   }
 };
 
-export const initIngredientsFailed = () => {
+export const initIngredientsFailed = (error) => {
   return {
     type: actionTypes.INIT_INGREDIENTS_FAILED,
+    error: error
   }
 };
 
@@ -37,7 +38,7 @@ export const initIngredients = () => {
       })
       .catch(err => {
         console.log(err);
-        return dispatch(initIngredientsFailed());
+        return dispatch(initIngredientsFailed(err));
       });
   }
 };

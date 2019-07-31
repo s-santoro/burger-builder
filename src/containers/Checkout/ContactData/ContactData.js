@@ -34,7 +34,7 @@ class ContactData extends Component {
         value: '',
         validation: {
           required: true,
-          minLength: 3
+          isEmail: true
         },
         valid: false
       },
@@ -138,6 +138,9 @@ class ContactData extends Component {
     }
     if(rules.maxLength) {
       isValid = value.replace(/ /g, '').length <= rules.maxLength && isValid
+    }
+    if(rules.isEmail) {
+      isValid = (/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/g).test(value) && isValid
     }
     return isValid;
   };
