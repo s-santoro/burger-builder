@@ -43,7 +43,6 @@ class Auth extends Component {
 
   componentDidMount() {
     if(!this.props.buildingBurger && this.props.authRedirectPath !== '/') {
-      console.log('auth did mount ', this.props.burgerBuilding, this.props.authRedirectPath);
       this.props.setAuthRedirectPath();
     }
   }
