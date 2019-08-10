@@ -6,6 +6,7 @@ import Button from "../../components/UI/Button/Button";
 import classes from './Auth.module.css';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import {Redirect} from "react-router";
 
 class Auth extends Component {
   state = {
@@ -39,6 +40,13 @@ class Auth extends Component {
       }
     }
   };
+
+  componentDidMount() {
+    if(!this.props.buildingBurger && this.props.authRedirectPath !== '/') {
+      console.log('auth did mount ', this.props.burgerBuilding, this.props.authRedirectPath);
+      this.props.setAuthRedirectPath();
+    }
+  }
 
   changeHandler = (event, inputIdentifier) => {
     // create deep-clone of orderDetails by first creating a shallow clone
@@ -151,8 +159,14 @@ class Auth extends Component {
     if (this.props.error) {
       errorMsg = this.errorHandler(this.props.error.message);
     }
+
+    let authRedirect = null;
+    if (this.props.isAuth) {
+      authRedirect = <Redirect to={this.props.authRedirectPath}/>
+    }
     return (
       <div className={classes.Auth}>
+        {authRedirect}
         <h4>
           Please {this.state.signUp ? 'Sign-Up' : 'Sign-In'}
         </h4>
@@ -170,13 +184,17 @@ class Auth extends Component {
 const mapStateToProps = state =>{
   return {
     loading: state.auth.loading,
-    error: state.auth.error
+    error: state.auth.error,
+    isAuth: state.auth.token !== null,
+    buildingBurger: state.burgerBuilding.building,
+    authRedirectPath: state.auth.authRedirectPath
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    auth: (email, password, signUp) => dispatch(actions.auth(email, password, signUp))
+    auth: (email, password, signUp) => dispatch(actions.auth(email, password, signUp)),
+    setAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
   }
 };
 

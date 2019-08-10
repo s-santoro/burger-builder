@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   ingredients: null,
   totalPrice: 6,
-  error: false
+  error: false,
+  building: false
 };
 
 const INGREDIENT_PRICES = {
@@ -23,7 +24,8 @@ const burgerBuilding = (state = initialState, action) => {
           // [action.ingredientName] can be used access key
           [action.payload.ingredient]: state.ingredients[action.payload.ingredient] + 1
         },
-        totalPrice: state.totalPrice + INGREDIENT_PRICES[action.payload.ingredient]
+        totalPrice: state.totalPrice + INGREDIENT_PRICES[action.payload.ingredient],
+        building: true
       };
     case actionTypes.REMOVE_INGREDIENT:
       return {
@@ -33,7 +35,8 @@ const burgerBuilding = (state = initialState, action) => {
           // [action.ingredientName] can be used access key
           [action.payload.ingredient]: state.ingredients[action.payload.ingredient] - 1
         },
-        totalPrice: state.totalPrice - INGREDIENT_PRICES[action.payload.ingredient]
+        totalPrice: state.totalPrice - INGREDIENT_PRICES[action.payload.ingredient],
+        building: true
       };
     case actionTypes.SET_INGREDIENTS:
       return {
@@ -46,7 +49,8 @@ const burgerBuilding = (state = initialState, action) => {
           meat: action.payload.ingredients.meat
         },
         totalPrice: 6,
-        error: false
+        error: false,
+        building: false
       };
     case actionTypes.INIT_INGREDIENTS_FAILED:
       return {

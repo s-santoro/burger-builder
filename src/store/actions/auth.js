@@ -28,17 +28,20 @@ export const authFail = error => {
 };
 
 export const authLogout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('expirationTime');
+  localStorage.removeItem('userID');
   return {
     type: actionTypes.AUTH_LOGOUT,
   }
 };
 
 export const checkTokenExpiration = (expirationTime) => {
-  const expirationTimeInSeconds = expirationTime * 1000;
+  const expirationTimeInMillsec = expirationTime * 1000;
   return dispatch => {
     setTimeout(() => {
       dispatch(authLogout())
-    }, expirationTimeInSeconds);
+    }, expirationTimeInMillsec);
   }
 };
 
@@ -56,6 +59,10 @@ export const auth = (email, password, signUp) => {
     }
     axios.post(url, authBody)
       .then(res => {
+        const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
+        localStorage.setItem('token', res.data.idToken);
+        localStorage.setItem('expirationTime', expirationDate);
+        localStorage.setItem('userID', res.data.localId);
         dispatch(authSuccess(res.data.idToken, res.data.localId));
         dispatch(checkTokenExpiration(res.data.expiresIn));
       })
@@ -63,5 +70,35 @@ export const auth = (email, password, signUp) => {
         console.log(err);
         dispatch(authFail(err.response.data.error));
       });
+  }
+};
+
+export const setAuthRedirectPath = path => {
+  return {
+    type: actionTypes.SETH_AUTH_REDIRECT_PATH,
+    payload: {
+      path: path
+    }
+  }
+};
+
+export const authCheckState = () => {
+  return dispatch => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      dispatch(authLogout());
+    }
+    else {
+      const expirationTime = new Date(localStorage.getItem('expirationTime'));
+      if (expirationTime < new Date()) {
+        dispatch(authLogout());
+      }
+      else {
+        const userID = localStorage.getItem('userID');
+        dispatch(authSuccess(token, userID));
+        // divide time difference to get seconds
+        dispatch(checkTokenExpiration((expirationTime.getTime() - new Date().getTime()) / 1000))
+      }
+    }
   }
 };
