@@ -1,8 +1,8 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-const SIGN_IN = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDLjeLDgXkB5BmyexrnTlKBA2lz35j099c';
-const SIGN_UP = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDLjeLDgXkB5BmyexrnTlKBA2lz35j099c';
+const SIGN_IN = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCGe6SoqVWIrS5t4HmQa5qB1SQ3USlhGeM';
+const SIGN_UP = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCGe6SoqVWIrS5t4HmQa5qB1SQ3USlhGeM';
 
 export const authStart = () => {
   return {
