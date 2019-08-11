@@ -8,7 +8,7 @@ import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import {Redirect} from "react-router";
 
-class Auth extends Component {
+export class Auth extends Component {
   state = {
     signUp: true,
     controls: {
