@@ -7,7 +7,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "fetch-mock": "^7.3.9",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
